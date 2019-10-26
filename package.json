@@ -1,0 +1,25 @@
+{
+  "name": "mandatory_do_together - mongoose",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "start": "cd server && node app.js",
+    "dev": "cd client && npm start",
+    "test": "cd client && npm test",
+    "preinstall": "cd server && npm install",
+    "install": "cd client && npm install",
+    "build": "cd client && npm run build"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "morgan": "^1.9.1"
+  },
+  "description": "Small template for developing an API using express.js",
+  "engines": {
+    "node": "10.15.3",
+    "npm": "6.9.0"
+  }
+}

@@ -23,7 +23,7 @@ class AskQuestion extends Component {
     render() {
         return (
             <React.Fragment>
-                <h3>Ask Question</h3>
+                <h4>Ask Question</h4>
                 <input onChange={(event) => this.onChange(event)}
                        type="text" placeholder="Type question here!"></input>
                 <button onClick={() => this.onClick()}>Ask!</button>

@@ -17,13 +17,13 @@ class AnswerQuestion extends Component {
     }
 
     onClick(event) {
-        this.props.answerQuestion(this.state.input);
+        this.props.addAnswer(this.state.input);
     }
 
     render() {
         return (
             <React.Fragment>
-                <h3>Answer Question</h3>
+                <h4>Answer Question</h4>
                 <input onChange={(event) => this.onChange(event)}
                        type="text" placeholder="Type answer here!"></input>
                 <button onClick={() => this.onClick()}>Answer!</button>

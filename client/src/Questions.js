@@ -16,7 +16,7 @@ class Questions extends Component {
                                 </li>
                             )}
                         </ol>
-                        <AskQuestion></AskQuestion>
+                        <AskQuestion askQuestion={(text) => this.props.askQuestion(text)}></AskQuestion>
                     </React.Fragment>
                 );
 }

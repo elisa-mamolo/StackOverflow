@@ -3,10 +3,12 @@ const bodyParser = require('body-parser');
 const morgan = require('morgan');
 const cors = require('cors');
 const mongoose = require('mongoose');
+const db = require("mongodb");
 
 /**** Configuration ****/
 const port = (process.env.PORT || 8000);
 const app = express();
+//configure libraries
 app.use(cors());
 app.use(bodyParser.json()); // Parse JSON from the request body
 app.use(morgan('combined')); // Log all requests to the console
@@ -34,6 +36,7 @@ app.get('/api/questions/:id', (req, res) => {
 //post question
 app.post('/api/questions', (req, res) => {
     let question = {
+        //need to specify question because otherwise is expecting a answer
         question : req.body.question,
         answers : [] // Empty answer array
     };
@@ -51,6 +54,24 @@ app.post('/api/questions/:id/answers', (req, res) => {
 app.delete('/api/questions/:id', (req, res)=>{
     let id = req.params.id;
     questionDAL.getQuestion(id).then(question => question.remove);
+});
+
+//post vote - not working just example code
+app.post('/api/questions/:id/answers/:id/vote', (req, res) => {
+    const { id, vote } = req.body;
+    db.findOne({ _id: id }, function (err, doc) {
+        if (err) {
+            return res.status(500).send(err);
+        }
+
+        db.update(
+            { _id: id },
+            { $set: { vote: doc.vote + vote } },
+            { returnUpdatedDocs: true }, (err, num, updatedDoc) => {
+            if (err) return res.status(500).send(err);
+           return  {vote: updatedDoc};
+        });
+    });
 });
 
 // "Redirect" all get requests (except for the routes specified above) to React's entry point (index.html) to be handled by Reach router

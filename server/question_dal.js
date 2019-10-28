@@ -39,15 +39,33 @@ class Db {
     async createQuestion(newQuestion) {
         // TODO: Error handling
         let question = new this.questionModel(newQuestion);
-        return question.save();
+        try {
+            return await question.save();
+        } catch (error) {
+            console.error("createQuestion:", error.message);
+            return {};
+        }
+
     }
+
 
     async addAnswer(id, text) {
         // TODO: Error handling
         //get question by id
         const question = await this.getQuestion(id);
+
         //push the answer to question
+        question.vote = 0;
         question.answers.push(text);
+        return question.save();
+    }
+
+    //vote
+    async putVote(questionId, answerId) {
+        // TODO: Error handling
+        const question = await this.getQuestion(questionId);
+        const answer = this.addAnswer(question, answerId);
+        answer.votes = answer.votes + 1;
         return question.save();
     }
 

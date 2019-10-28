@@ -12,14 +12,28 @@ class Question extends Component {
         if (question) {
             content =
                 <React.Fragment>
-                    <h1>{question.question}</h1>
+                    <h4>{question.question}</h4>
 
-                    <h3>Answers</h3>
+                    <h6>Answers</h6>
                     <ul>
                         {/*_id to have an unique key */}
-                        {question.answers.map(q => <li key={q._id}>{q.text}  Votes:{q.vote}</li>
-                        )}
+                        {question.answers.map(q => <li key={q._id}>{q.text}      Votes: {q.vote}
+                        <div className="vote-buttons">
+
+                            <button className="upvote">
+                                +
+                            </button>
+                            <button className="downvote">
+                                -
+                            </button>
+                        </div>
+                        </li>)}
+
+
                     </ul>
+
+
+
 
 
                 </React.Fragment>
@@ -34,7 +48,8 @@ class Question extends Component {
                 </ul>
                 */}
                 {content}
-                <AnswerQuestion answerQuestion={(text) => this.props.answerQuestion(text)}></AnswerQuestion>
+                <AnswerQuestion addAnswer={(text) => this.props.addAnswer(text)}></AnswerQuestion>
+
                 <Link to="/">Go back to questions</Link>
             </React.Fragment>
         )

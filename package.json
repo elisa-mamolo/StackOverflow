@@ -15,7 +15,10 @@
   "dependencies": {
     "cors": "^2.8.5",
     "express": "^4.17.1",
-    "morgan": "^1.9.1"
+    "morgan": "^1.9.1",
+    "polished": "^3.4.1",
+    "react-bootstrap": "^1.0.0-beta.14",
+    "styled-components": "^4.4.0"
   },
   "description": "Small template for developing an API using express.js",
   "engines": {

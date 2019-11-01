@@ -45,7 +45,7 @@ app.post('/api/questions', (req, res) => {
 });
 
 //post answer
-app.post('/api/questions/:id/', (req, res) => {
+app.post('/api/questions/:id', (req, res) => {
     questionDAL.addAnswer(req.params.id, req.body.answer)
         .then(updatedQuestion => res.json(updatedQuestion));
 });

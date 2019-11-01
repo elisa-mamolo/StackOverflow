@@ -3,7 +3,7 @@ import { Router } from "@reach/router";
 
 import Questions from "./Questions";
 import Question from "./Question";
-import AskQuestion from "./AskQuestion";
+
 
 class App extends Component {
 
@@ -91,7 +91,7 @@ class App extends Component {
 
                     <Question path="/question/:id"
     getQuestion={id => this.getQuestion(id)}
-    addAnswer={(answer) => this.addAnswer(answer)}/>
+    addAnswer={(id, answer) => this.addAnswer(id, answer)}/>
 
                 </Router>
 

@@ -29,6 +29,11 @@ class App extends Component {
             questions: json //set it in the state
         })
     }
+    getQuestion(id){
+        //find question by id
+        return this.state.questions.find(q => q._id === id)
+    }
+
 
     //method for posting a question
     async askQuestion(question){
@@ -50,19 +55,30 @@ class App extends Component {
             .then( json => {
                 this.getQuestions();
             })
-        //let result = await fetch(url); //get the data
-        //let json = await result.json(); //turn data into JSON
-        //return this.setState({
-          //  questions: json //set it in the state
-        //})
     }
 
-   
+    //method for posting answer
+    async addAnswer(id, answer){
 
-    getQuestion(id){
-        //find question by id
-        return this.state.questions.find(q => q._id === id)
+        this.postAnswer(id, answer);
     }
+    //post answer method
+    async postAnswer(id, answer) {
+        let url = `${this.API_URL}/questions/${id}`;
+        fetch(url, {
+            method: "POST",
+            body: JSON.stringify({
+                answer: answer
+            }), headers : {
+                "Content-type" : "application/json"
+            }
+        })
+            .then(res => res.json())
+            .then( json => {
+                this.getQuestions();
+            })
+    }
+
 
     render() {
         return (
@@ -74,7 +90,8 @@ class App extends Component {
                        askQuestion={(text) => this.askQuestion(text)}/>
 
                     <Question path="/question/:id"
-                              getQuestion={id => this.getQuestion(id)}></Question>
+    getQuestion={id => this.getQuestion(id)}
+    addAnswer={(answer) => this.addAnswer(answer)}/>
 
                 </Router>
 

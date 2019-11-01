@@ -48,7 +48,7 @@ class Question extends Component {
                 </ul>
                 */}
                 {content}
-                <AnswerQuestion addAnswer={(text) => this.props.addAnswer(text)}></AnswerQuestion>
+                <AnswerQuestion addAnswer={(answer) => this.props.addAnswer(answer)}/>
 
                 <Link to="/">Go back to questions</Link>
             </React.Fragment>

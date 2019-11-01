@@ -30,7 +30,7 @@ class AnswerQuestion extends Component {
             </React.Fragment>
         )
 
-        console.log(this.props.answerQuestion());
+        //console.log(this.props.answerQuestion());
     }
 }
 

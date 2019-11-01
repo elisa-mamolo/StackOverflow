@@ -10,8 +10,8 @@ class Questions extends Component {
                         <h3>Questions</h3>
                         <ol>
                             {this.props.questions.map(question =>
-                                <li key={question._id}>
-                                    <Link to={`/question/${question._id}`}>{question.question}</Link>
+                                <li key={question.id}>
+                                    <Link to={`/question/${question.id}`}>{question.question}</Link>
 
                                 </li>
                             )}

@@ -25,9 +25,6 @@ class Db {
     }
 
     async getQuestion(id) {
-        this.questionModel.findById = async function (id) {
-            
-        }
         try {
             return await this.questionModel.findById(id);
         } catch (error) {
@@ -35,6 +32,7 @@ class Db {
             return {};
         }
     }
+
 
     async createQuestion(newQuestion) {
         // TODO: Error handling
@@ -49,15 +47,19 @@ class Db {
     }
 
 
-    async addAnswer(id, text) {
+    async addAnswer(id, answer) {
         // TODO: Error handling
         //get question by id
         const question = await this.getQuestion(id);
-
         //push the answer to question
-        question.vote = 0;
-        question.answers.push(text);
-        return question.save();
+        question.answers.push({text: answer, vote: 0});
+        try {
+            return question.save();
+
+        } catch{
+            console.log("addAnswer", error.message);
+        }
+
     }
 
     //vote

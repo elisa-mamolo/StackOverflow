@@ -52,7 +52,7 @@ app.post('/api/questions/:id', (req, res) => {
 
 //put vote
 app.put('/api/questions/:id/answers/:id/vote', (req, res) => {
-
+questionDAL.putVote(req.params.id, req.body).then(updatedVote => res.json(updatedVote));
 });
 
 //delete question - not working?

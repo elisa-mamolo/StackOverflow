@@ -63,9 +63,9 @@ class Db {
     }
 
     //vote
-    async putVote(questionId, answerId) {
+    async putVote(id, answerId) {
         // TODO: Error handling
-        const question = await this.getQuestion(questionId);
+        const question = await this.getQuestion(id);
         const answer = this.addAnswer(question, answerId);
         answer.votes = answer.votes + 1;
         return question.save();

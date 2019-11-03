@@ -31,7 +31,7 @@ class App extends Component {
     }
     getQuestion(id){
         //find question by id
-        return this.state.questions.find(q => q._id === id)
+        return this.state.questions.find(q => q._id === id);
     }
 
 
@@ -80,6 +80,26 @@ class App extends Component {
     }
 
 
+    //method for put vote
+    async addVote(id, answerId){
+
+        this.putVote(id, answerId);
+    }
+    //post answer method
+    async putVote(id, answerId) {
+        let url = `${this.API_URL}/questions/:id/answers/:id/vote`;
+        fetch(url, {
+            method: "PUT",
+             headers : {
+                "Content-type" : "application/json"
+            }
+        })
+            .then(res => res.json())
+            .then( json => {
+                this.getQuestions();
+            })
+    }
+
     render() {
         return (
             <React.Fragment>
@@ -90,8 +110,8 @@ class App extends Component {
                        askQuestion={(text) => this.askQuestion(text)}/>
 
                     <Question path="/question/:id"
-    getQuestion={id => this.getQuestion(id)}
-    addAnswer={(id, answer) => this.addAnswer(id, answer)}/>
+                    getQuestion={id => this.getQuestion(id)}
+                    addAnswer={(id, answer) => this.addAnswer(id, answer)}/>
 
                 </Router>
 

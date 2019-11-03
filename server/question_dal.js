@@ -61,7 +61,13 @@ class Db {
         }
 
     }
-
+    getAnswer(question, answerId){
+        try{
+            return question.answers.find(answer => answer._id = answerId)
+        } catch{
+            return {}
+        }
+    }
     //vote
     async putVote(id, answerId) {
         // TODO: Error handling

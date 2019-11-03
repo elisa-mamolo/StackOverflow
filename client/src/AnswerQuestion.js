@@ -17,7 +17,7 @@ class AnswerQuestion extends Component {
     }
 
     onClick(event) {
-        this.props.addAnswer(this.state.input);
+        this.props.addAnswer(this.props.qid, this.state.input);
     }
 
     render() {

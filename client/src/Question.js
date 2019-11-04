@@ -15,7 +15,16 @@ class Question extends Component {
                  <div key={answer._id}>
 
                      <li>{answer.text} Vote: {answer.vote}</li>
+                     <div className="vote-buttons">
 
+                         <button className="upvote" qid={this.props.id}
+                                 putVote={(id, answerId) => this.props.putVote(id, answerId)}>
+                             +
+                         </button>
+                         <button className="downvote">
+                             -
+                         </button>
+                     </div>
 
                  </div>
              ))

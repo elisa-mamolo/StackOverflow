@@ -5,6 +5,9 @@ const cors = require('cors');
 const mongoose = require('mongoose');
 const db = require("mongodb");
 
+const checkJwt = require('express-jwt');    // Check for access tokens automatically
+const bcrypt = require('bcryptjs');         // Used for hashing passwords!
+
 /**** Configuration ****/
 const port = (process.env.PORT || 8000);
 const app = express();
@@ -14,12 +17,61 @@ app.use(bodyParser.json()); // Parse JSON from the request body
 app.use(morgan('combined')); // Log all requests to the console
 app.use(express.static('../client/build')); // Only needed when running build in production mode
 
+
+// Open paths that do not need login. Any route not included here is protected!
+let openPaths = [
+    { url: '/api/users/authenticate', methods: ['POST'] },
+    //add questions so the user not logged in can still see my questions
+    { url: '/api/questions', methods: ['GET'] }
+];
+
+//this is the first part of the middleware
+// Validate the user using authentication. checkJwt checks for auth token.
+//use the secret to check the validity of the token
+const secret = "the cake is a lie";
+app.use(checkJwt({ secret: secret }).unless({ path : openPaths }));
+
+// This middleware checks the result of checkJwt
+app.use((err, req, res, next) => {
+    if (err.name === 'UnauthorizedError') { // If the user didn't authorize correctly
+        res.status(401).json({ error: err.message }); // Return 401 with error message.
+    } else {
+        next(); // If no errors, send request to next middleware or route handler
+    }
+});
+
+/**** Users ****/
+
+// It is recommended that you store users in MongoDB using Mongoose instead of this.
+const users = [
+    // These are just some test users with passwords.
+    // The passwords are in clear text for testing purposes. (don't do this in production)
+    { id: 0, username: "elisa", password: '123'},
+    { id: 1, username: "giulia", password: 'password'},
+    { id: 2, username: "silvia", password: 'l33th0xor'},
+];
+
+// Creating more test data: We run through all users and add a hash of their password to each.
+// Again, this is only for testing. In practice, you should hash only when adding new users.
+users.forEach(user => {
+    //10 is because it is hashed 10 times
+    bcrypt.hash(user.password, 10, function(err, hash) {
+        user.hash = hash; // The hash has been made, and is stored on the user object.
+        delete user.password; // The clear text password is no longer needed
+        console.log(`Hash generated for ${user.username}`, user); // For testing purposes
+    });
+});
+
 /**** Database ****/
 // The "Question Data Access Layer". file question_dal.js
 // give module to mongoose as a parameter to make operations with the data
 const questionDAL = require('./question_dal')(mongoose);
 
 /**** Routes ****/
+
+const usersRouter = require('./users_router')(users, secret);
+app.use('/api/users', usersRouter);
+
 //get all questions
 app.get('/api/questions', (req, res) => {
     // Get all questions. Put question into json response when it resolves.

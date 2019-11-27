@@ -50,12 +50,18 @@ app.post('/api/questions/:id', (req, res) => {
         .then(updatedQuestion => res.json(updatedQuestion));
 });
 
-//put vote
-app.put('/api/questions/:id/answers/:id/vote', (req, res) => {
-questionDAL.putVote(req.params.id, req.body).then(updatedVote => res.json(updatedVote));
-});
+//Update Vote
+app.put(
+    "/api/questions/:questionId/answers/:answerId/vote",
+    (request, response) => {
+        //Path parameter
+        // request.body is an answer object
+        questionDAL.putVote(request.params.questionId, request.params.answerId)
+            .then(updatedVote => response.json(updatedVote));
+    }
+);
 
-//delete question - not working?
+//delete question - not implemented
 app.delete('/api/questions/:id', (req, res)=>{
     let id = req.params.id;
     questionDAL.getQuestion(id).then(question => question.remove);

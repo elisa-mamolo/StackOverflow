@@ -79,24 +79,31 @@ class App extends Component {
             })
     }
 
-    //method for put vote
-    async addVote(id, answerId){
-
-        this.putVote(id, answerId);
-    }
-    //post answer method
+    //Function to vote the answers
     async putVote(id, answerId) {
-        let url = `${this.API_URL}/questions/:id/answers/:id/vote`;
+        let url = `${this.API_URL}/questions/`
+            .concat(id)
+            .concat("/answers/")
+            .concat(answerId)
+            .concat("/vote");
         fetch(url, {
             method: "PUT",
-            headers : {
-                "Content-type" : "application/json"
+            headers: {
+                "Content-type": "application/json; charset=UTF-8"
             }
         })
-            .then(res => res.json())
-            .then( json => {
+            .then(response => response.json())
+            .then(json => {
+                console.log("Result of posting a new question:");
+                console.log(json);
                 this.getQuestions();
-            })
+            }); // Get the data
+    }
+
+    async handleVote(id, answerId) {
+        //PUT
+        this.putVote(id, answerId).then(r => console.log(answerId));
+        console.log("The link was clicked.");
     }
 
     render() {
@@ -110,7 +117,8 @@ class App extends Component {
 
                     <Question path="/question/:id"
                     getQuestion={id => this.getQuestion(id)}
-                    addAnswer={(id, answer) => this.addAnswer(id, answer)}/>
+                    addAnswer={(id, answer) => this.addAnswer(id, answer)}
+                    handleVote={(id, answerId) => this.handleVote(id, answerId)}/>
 
                 </Router>
 

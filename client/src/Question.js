@@ -18,7 +18,9 @@ class Question extends Component {
                      <div className="vote-buttons">
 
                          <button className="upvote" qid={this.props.id}
-                                 putVote={(id, answerId) => this.props.putVote(id, answerId)}>
+                                 onClick={() =>
+                                     this.props.handleVote(this.props.id, answer._id)
+                                 }>
                              +
                          </button>
                          <button className="downvote">
